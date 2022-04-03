@@ -1,0 +1,33 @@
+<launch>
+
+  <arg name="paused" default="false"/>
+  <arg name="use_sim_time" default="true"/>
+  <arg name="gui" default="true"/>
+  <arg name="headless" default="false"/>
+  <arg name="debug" default="false"/>
+
+  <include file="$(find gazebo_ros)/launch/empty_world.launch">
+    <arg name="debug" value="$(arg debug)" />
+    <arg name="gui" value="$(arg gui)" />
+    <arg name="paused" value="$(arg paused)"/>
+    <arg name="use_sim_time" value="$(arg use_sim_time)"/>
+    <arg name="headless" value="$(arg headless)"/>
+    </include>
+
+  <param name="robot_description" command="$(find xacro)/xacro --inorder $(find robo_car)/urdf/robo_car.xacro" />
+
+  <node name="urdf_spawner" pkg="gazebo_ros" type="spawn_model" respawn="false" output="screen"
+	args="-urdf -model Robo_Car -param robot_description"/>
+	
+  <node pkg="diff_wheeled_robot_control" type="diff_wheeled_robot_key"
+name="diff_wheeled_robot_key" output="screen">
+<param name="scale_linear" value="1.0" type="double"/>
+<param name="scale_angular" value="2.0" type="double"/>
+<remap from="turtlebot_teleop_keyboard/cmd_vel" to="/cmd_vel"/>
+  </node>
+
+  <node name="rqt_robot_steering" pkg="rqt_robot_steering" type="rqt_robot_steering">
+    <param name="default_topic" value="/cmd_vel"/>
+  </node>
+
+</launch>

@@ -1,0 +1,208 @@
+<?xml version="1.0"?>
+<robot name="Robo_Car" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+<xacro:macro name="inertial_matrix" params="mass">
+        <inertial>
+            <mass value="${mass}" />
+                <inertia ixx="100" ixy="0.0" ixz="0.0"
+                        iyy="100" iyz="0.0"
+                        izz="100" />
+        </inertial>
+</xacro:macro> -->
+
+
+<xacro:macro name="transmission_block" params="joint_name">
+	  <transmission name="tran1">
+	    <type>transmission_interface/SimpleTransmission</type>
+	    <joint name="${joint_name}">
+	      <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
+	    </joint>
+	    <actuator name="${joint_name}_motor">
+	      <hardwareInterface>EffortJointInterface</hardwareInterface>
+	      <mechanicalReduction>1</mechanicalReduction>
+	    </actuator>
+	  </transmission>
+</xacro:macro>
+    
+
+    <material name="Black">
+        <color rgba="0.0 0.0 0.0 1.0"/>
+    </material>
+    <material name="White">
+        <color rgba="1.0 1.0 1.0 1.0"/>
+    </material>
+    <material name="Yellow">
+        <color rgba="1.0 1.0 0.0 1.0"/>
+    </material>
+
+    <link name="base_link">
+        <visual>
+            <geometry>
+                <box size="5.0 2.0 0.5"/>
+            </geometry>
+            <origin rpy="0 0 0" xyz="0 0 1.0"/>
+            <material name="Yellow"/>
+        </visual>
+        <xacro:inertial_matrix mass="1.0"/>
+        <collision>
+            <geometry>
+                <box size="5.0 1.0 0.5"/>
+            </geometry>
+            <origin rpy="0 0 0" xyz="0 0 1.0"/>
+        </collision>
+        <gazebo reference="base_link">
+            <material>Gazebo/Yellow</material>
+        </gazebo>
+    </link>
+
+    <link name="right_front">
+        <visual>
+            <geometry>
+                <cylinder length="0.5" radius="0.5"/>
+            </geometry>
+            <origin rpy="1.57 0 0" xyz="0 0 0"/>
+            <material name="Black"/>
+        </visual>
+        <xacro:inertial_matrix mass="1.0"/>
+        <collision>
+            <geometry>
+                <cylinder length="0.5" radius="0.5"/>
+            </geometry>
+            <origin rpy="1.57 0 0" xyz="0 0 0"/>
+        </collision>
+        <gazebo reference="right_front">
+            <material>Black</material>
+        </gazebo>
+    </link>
+
+    <joint name="right_front_joint" type="continuous">
+        <parent link="base_link"/>
+        <child link="right_front"/>
+	<origin rpy="0 0 0" xyz="2.5 1.0 1.0"/>
+        <axis rpy="0  0" xyz="0 1 0"/>
+        <limit effort="180" velocity="100"/>
+        <dynamic damping="0.0" friction="0.0"/>
+    </joint>
+
+    <link name="left_front">
+        <visual>
+            <geometry>
+                <cylinder length="0.5" radius="0.5"/>
+            </geometry>
+            <origin rpy="1.57 0 0" xyz="0 0 0"/>
+            <material name="Black"/>
+        </visual>
+        <xacro:inertial_matrix mass="1.0"/>
+        <collision>
+            <geometry>
+                <cylinder length="0.5" radius="0.5"/>
+            </geometry>
+            <origin rpy="1.57 0 0" xyz="0 0 0"/>
+        </collision>
+        <gazebo reference="left_front">
+            <material>Black</material>
+        </gazebo>
+    </link>
+
+    <joint name="left_front_joint" type="continuous">
+        <parent link="base_link"/>
+        <child link="left_front"/>
+	<origin rpy="0 0 0" xyz="2.5 -1.0 1.0"/>
+        <axis rpy="0  0" xyz="0 1 0"/>
+        <limit effort="180" velocity="100"/>
+        <dynamic damping="0.0" friction="0.0"/>
+    </joint>
+
+    <link name="right_back">
+        <visual>
+            <geometry>
+                <cylinder length="0.5" radius="0.5"/>
+            </geometry>
+            <origin rpy="1.57 0 0" xyz="0 0 0"/>
+            <material name="Black"/>
+        </visual>
+        <xacro:inertial_matrix mass="1.0"/>
+        <collision>
+            <geometry>
+                <cylinder length="0.5" radius="0.5"/>
+            </geometry>
+            <origin rpy="1.57 0 0" xyz="0 0 0"/>
+        </collision>
+        <gazebo reference="right_back">
+            <material>Black</material>
+        </gazebo>
+    </link>
+
+    <joint name="right_back_joint" type="continuous">
+        <parent link="base_link"/>
+        <child link="right_back"/>
+	<origin rpy="0 0 0" xyz="-2.5 -1.0 1.0"/>
+        <axis rpy="0  0" xyz="0 1 0"/>
+        <limit effort="180" velocity="100"/>
+        <dynamic damping="0.0" friction="0.0"/>
+    </joint>
+
+    <link name="left_back">
+        <visual>
+            <geometry>
+                <cylinder length="0.5" radius="0.5"/>
+            </geometry>
+            <origin rpy="1.57 0 0" xyz="0 0 0"/>
+            <material name="Black"/>
+        </visual>
+        <xacro:inertial_matrix mass="0.5"/>
+        <collision>
+            <geometry>
+                <cylinder length="0.5" radius="0.5"/>
+            </geometry>
+            <origin rpy="1.57 0 0" xyz="0 0 0"/>
+        </collision>
+        <gazebo reference="left_back">
+            <material>Black</material>
+        </gazebo>
+    </link>
+
+    <joint name="left_back_joint" type="continuous">
+        <parent link="base_link"/>
+        <child link="left_back"/>
+	<origin rpy="0 0 0" xyz="-2.5 1.0 1.0"/>
+        <axis rpy="0  0" xyz="0 1 0"/>
+        <limit effort="180" velocity="100"/>
+        <dynamic damping="0.0" friction="0.0"/>
+    </joint>
+    
+    <!-- <xacro:transmission_block joint_name="right_front_joint"/>
+    <xacro:transmission_block joint_name="left_front_joint"/> -->
+    <xacro:transmission_block joint_name="right_back_joint"/>
+    <xacro:transmission_block joint_name="left_back_joint"/>
+
+    <!-- <gazebo>
+        <plugin name="gazebo_ros_control" filename= "libgazebo_ros_control.so">
+            <robotNamespace>/</robotNamespace>
+        </plugin>
+    </gazebo> -->
+
+    <gazebo>
+        <plugin name="differential_drive_controller" filename="libgazebo_ros_diff_drive.so">
+            <rosDebugLevel>Debug</rosDebugLevel>
+            <publishWheelTF>false</publishWheelTF>
+            <robotNamespace>/</robotNamespace>
+            <publishTf>1</publishTf>
+            <publishWheelJointState>false</publishWheelJointState>
+            <alwaysOn>true</alwaysOn>
+            <updateRate>100.0</updateRate>
+            <leftJoint>left_back_joint</leftJoint>
+            <rightJoint>right_back_joint</rightJoint>
+            <wheelSeparation>1.0</wheelSeparation>
+            <wheelDiameter>2.0</wheelDiameter>
+            <broadcastTF>1</broadcastTF>
+            <wheelTorque>30</wheelTorque>
+            <wheelAcceleration>2.0</wheelAcceleration>
+            <commandTopic>cmd_vel</commandTopic>
+            <odometryFrame>odom</odometryFrame>
+            <odometryTopic>odom</odometryTopic>
+            <robotBaseFrame>base_link</robotBaseFrame>
+        </plugin>
+    </gazebo>
+
+</robot>

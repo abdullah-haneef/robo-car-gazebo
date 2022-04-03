@@ -1,0 +1,103 @@
+<?xml version="1.0"?>
+<robot name="Robo_Car" xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+ <material name="Black">
+  <color rgba="0.0 0.0 0.0 1.0"/>
+ </material>
+ <material name="Red">
+  <color rgba="0.8 0.0 0.0 1.0"/>
+ </material>
+ <material name="White">
+  <color rgba="1.0 1.0 1.0 1.0"/>
+ </material>
+ <material name="Blue">
+  <color rgba="0.0 0.0 0.8 1.0"/>
+ </material>
+ <material name="Yellow">
+  <color rgba="1.0 1.0 0.0 1.0"/>
+ </material>
+
+ <link name="base_link">
+  <visual>
+   <geometry>
+    <box size="5.0 2.0 1.0"/>
+   </geometry>
+   <origin rpy="0 0 0" xyz="0 0 1.0"/>
+   <material name="Yellow"/>
+  </visual>
+ </link>
+
+ <link name="right_front">
+  <visual>
+   <geometry>
+    <cylinder length="0.5" radius="1.0"/>
+   </geometry>
+   <origin rpy="1.57 0 0" xyz="2.5 1.0 1.0"/>
+   <material name="Black"/>
+  </visual>
+ </link>
+
+ <joint name="right_front_joint" type="continuous">
+  <parent link="base_link"/>
+  <child link="right_front"/>
+  <origin rpy="0 0 0" xyz="2.5 1.0 1.0"/> 
+  <axis rpy="0 0 0" xyz="1 1 0"/> 
+  <dynamic damping="0.0" friction="0.0"/>
+ </joint>
+
+ <link name="left_front">
+  <visual>
+   <geometry>
+    <cylinder length="0.5" radius="1.0"/>
+   </geometry>
+   <origin rpy="1.57 0 0" xyz="-2.5 1.0 1.0"/>
+   <material name="Black"/>
+  </visual>
+ </link>
+
+ <joint name="left_front_joint" type="continuous">
+  <parent link="base_link"/>
+  <child link="left_front"/>
+  <origin rpy="0 0 0" xyz="-2.5 1.0 1.0"/> 
+  <axis rpy="0 0 0" xyz="1 1 0"/> 
+  <dynamic damping="0.0" friction="0.0"/>
+ </joint>
+
+ <link name="right_back">
+  <visual>
+   <geometry>
+    <cylinder length="0.5" radius="1.0"/>
+   </geometry>
+   <origin rpy="1.57 0 0" xyz="2.5 -1.0 1.0"/>
+   <material name="Black"/>
+  </visual>
+ </link>
+
+ <joint name="right_back_joint" type="continuous">
+  <parent link="base_link"/>
+  <child link="right_back"/>
+  <origin rpy="0 0 0" xyz="2.5 -1.0 1.0"/> 
+  <axis rpy="0 0 0" xyz="1 1 0"/> 
+  <dynamic damping="0.0" friction="0.0"/>
+ </joint>
+
+ <link name="left_back">
+  <visual>
+   <geometry>
+    <cylinder length="0.5" radius="1.0"/>
+   </geometry>
+   <origin rpy="1.57 0 0" xyz="-2.5 -1.0 1.0"/>
+   <material name="Black"/>
+  </visual>
+ </link>
+
+ <joint name="left_back_joint" type="continuous">
+  <parent link="base_link"/>
+  <child link="left_back"/>
+  <origin rpy="0 0 0" xyz="-2.5 -1.0 1.0"/> 
+  <axis rpy="0 0 0" xyz="1 1 0"/> 
+  <dynamic damping="0.0" friction="0.0"/>
+ </joint>
+
+</robot>
+
